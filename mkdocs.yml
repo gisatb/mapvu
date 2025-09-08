@@ -1,5 +1,5 @@
 site_name: mapvu
-site_description: A python package for web map application to crate interative mapping.
+site_description: A python package for web map application to crate interactive mapping.
 site_author: gisatb
 site_url: https://gisatb.github.io/mapvu
 repo_url: https://github.com/gisatb/mapvu

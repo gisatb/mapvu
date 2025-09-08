@@ -38,7 +38,7 @@ setup(
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
     ],
-    description="A python package for web map application to crate interative mapping.",
+    description="A python package for web map application to crate interactive mapping.",
     install_requires=install_requires,
     dependency_links=dependency_links,
     license="MIT license",

@@ -6,12 +6,48 @@ import ipyleaflet
 
 class Map(ipyleaflet.Map):
 
-    def __init__(self, center, zoom, **kwargs):
+    def __init__(self, center=[20, 0], zoom=2, **kwargs) -> None:
+
         if "scroll_wheel_zoom" not in kwargs:
             kwargs['scroll_wheel_zoom'] = True
-
-        print(kwargs)   
+  
         super().__init__(center=center, zoom=zoom, **kwargs)
+        
+        if "layer_control" not in kwargs:
+            kwargs["layer_control"] = True
+
+        if kwargs["layer_control"]:
+            self.add_layer_control()
+
+        if "fullscreen_control" not in kwargs:
+            kwargs["fullscreen_control"] = True
+
+        if kwargs["fullscreen_control"]:
+            self.add_fullscreen_control() 
+
+        if "draw_control" not in kwargs:
+            kwargs["draw_control"] = True
+
+        if kwargs["draw_control"]:
+            self.add_draw_control()
+
+        if "height" not in kwargs:
+            self.layout.height = "600px"
+        else:
+            self.layout.height = kwargs["height"]  
+
+
+
+
+    def add_fullscreen_control(self, position="topleft"):
+        """Add afullscreen control to the map.
+
+        Args:
+            position (str, optional): kwargs: keyword agrument for the position. Defaults to "topleft".
+        """
+        fullscreen_control = ipyleaflet.FullScreenControl(position=position)
+        self.add_control(fullscreen_control)
+
 
     def add_search_control(self, position="topleft", **kwargs):
         """Add a search control to the map.
@@ -25,6 +61,7 @@ class Map(ipyleaflet.Map):
 
         search_control = ipyleaflet.SearchControl(position=position, **kwargs)
         self.add_control(search_control)
+
 
     def add_draw_control(self, **kwargs):
         """Add a draw control to the  map.
@@ -68,8 +105,92 @@ class Map(ipyleaflet.Map):
             }
         }
 
-        self.add_control(draw_control)           
+        self.add_control(draw_control)    
 
+
+    def add_layer_control(self, position="topright"):
+        """Add a layer control to the map.
+
+        Args:
+        kwargs: Keyword agruments to pass to the layers control
+        """
+        layer_control = ipyleaflet.LayersControl(position=position)
+        self.add_control(layer_control)
+
+        
+    def add_tile_layer(self, url, name, attribution="",**kwargs):
+        """Add a tile layer to the map.
+
+        Args:
+            url (_type_): The url of the tile layer
+            name (_type_): The name of the tile layer
+            attribution (str, optional): The attribution of the layer. Defaults to "".
+        """
+
+        tile_layer = ipyleaflet.TileLayer(
+            url=url,
+            name=name,
+            attribution=attribution,
+            **kwargs
+        )
+        self.add_layer(tile_layer)
+
+    def add_basemap(self, basemap, **kwargs):
+
+        import xyzservices.providers as xyz
+
+        if basemap.lower() == "roadmap":
+            url = "http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z} "
+            self.add_tile_layer(url, name= basemap, **kwargs)
+        elif basemap.lower() == "hybrid":
+            url = "http://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}"
+            self.add_tile_layer(url, name=basemap, **kwargs)
+        elif basemap.lower() == "satellite":
+            url = "http://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}"
+            self.add_tile_layer(url, name=basemap, **kwargs)
+        else:
+            try:
+                basemap = eval(f"xyz.{basemap}")
+                url=basemap.build_url()
+                attribution = basemap.attribution
+                self.add_tile_layer(url, name=basemap.name, attribution=attribution, **kwargs)
+            except:
+                raise ValueError(f"Basemap '{Basemap}' not found")       
+
+
+    def add_geojson(self, data, name="GeoJSON", style=None, **kwargs):
+
+        if isinstance(data, str):
+            import json
+            with open (data, "r") as f:
+                data = json.load(f)
+
+        if style is None:
+            
+            style = {
+                "stroke": True,
+                "color": "#000000",
+                "weight": 2,
+                "opacity": 1,
+                "fill": True,
+                "fillColor": "#0000ff",
+                "fillOpacity": 0.4,
+            }        
+
+        geojson = ipyleaflet.GeoJSON(data=data, name=name, style=style, **kwargs)
+        self.add_layer(geojson)
+
+    def add_shp(self, data, name="Shapefile", style=None, **kwargs):
+
+        import geopandas as gpd
+        gdf = gpd.read_file(data)
+        geojson = gdf.__geo_interface__
+        self.add_geojson(geojson, name=name, style=style, **kwargs)
+
+
+        
+ 
+    
 
 
 

@@ -14,7 +14,7 @@ class Map(ipyleaflet.Map):
         super().__init__(center=center, zoom=zoom, **kwargs)
 
     def add_search_control(self, position="topleft", **kwargs):
-        """Addd a serach control to the map.
+        """Add a search control to the map.
 
         Args:
             kwargs: keyword argument to pass to the search control

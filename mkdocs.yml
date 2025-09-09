@@ -81,6 +81,7 @@ nav:
     - Report Issues: https://github.com/gisatb/mapvu/issues
     - Examples:
         - examples/intro.ipynb
+        - examples/folium.ipynb
     - API Reference:
           - mapvu module: mapvu.md
           - common module: common.md

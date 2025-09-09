@@ -13,7 +13,7 @@ def generate_random_string(length=10, upper=False, digits=False, punctuation=Fal
         punctuation (bool, optional): Whether to include pounctuation. Defaults to False.
 
     Returns:
-        _type_: The genearted string
+        _type_: The generated string
     """    
     letters = string.ascii_lowercase
     if upper:

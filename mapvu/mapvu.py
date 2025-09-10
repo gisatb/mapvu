@@ -38,10 +38,10 @@ class Map(ipyleaflet.Map):
 
 
     def add_fullscreen_control(self, position="topleft"):
-        """Add afullscreen control to the map.
+        """Add a fullscreen control to the map.
 
         Args:
-            position (str, optional): kwargs: keyword agrument for the position. Defaults to "topleft".
+            position (str, optional): kwargs: keyword argument for the position. Defaults to "topleft".
         """
         fullscreen_control = ipyleaflet.FullScreenControl(position=position)
         self.add_control(fullscreen_control)
@@ -110,7 +110,7 @@ class Map(ipyleaflet.Map):
         """Add a layer control to the map.
 
         Args:
-        kwargs: Keyword agruments to pass to the layers control
+        kwargs: Keyword arguments to pass to the layers control
         """
         layer_control = ipyleaflet.LayersControl(position=position)
         self.add_control(layer_control)
@@ -205,7 +205,7 @@ class Map(ipyleaflet.Map):
         Args:
             url (_type_): The url of the raster layer
             name (str, optional): The name of the raster layer. Defaults to "raster".
-            fit_bounds (bool, optional): Wheter ti=o fit to the map bounds to tje ratser layer. Defaults to True.
+            fit_bounds (bool, optional): Whether the fit to the map bounds to the ratser layer. Defaults to True.
 
         Raises:
             ValueError: _Not Found

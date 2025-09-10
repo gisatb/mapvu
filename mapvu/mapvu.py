@@ -37,8 +37,6 @@ class Map(ipyleaflet.Map):
             self.layout.height = kwargs["height"]  
 
 
-
-
     def add_fullscreen_control(self, position="topleft"):
         """Add afullscreen control to the map.
 
@@ -136,7 +134,14 @@ class Map(ipyleaflet.Map):
         self.add_layer(tile_layer)
 
     def add_basemap(self, basemap, **kwargs):
+        """Add basemap to the layer
 
+        Args:
+            basemap (_type_): Type of basemap you need to add it to the layer
+
+        Raises:
+            ValueError: File Not Found or Error in Name
+        """
         import xyzservices.providers as xyz
 
         if basemap.lower() == "roadmap":
@@ -181,14 +186,68 @@ class Map(ipyleaflet.Map):
         self.add_layer(geojson)
 
     def add_shp(self, data, name="Shapefile", style=None, **kwargs):
+        """Add shapefile to the map
 
+        Args:
+            data (_type_): Vector Data
+            name (str, optional): Name of the shapefile. Defaults to "Shapefile".
+            style (_type_, optional): Style of the shapefile. Defaults to None.
+        """
         import geopandas as gpd
         gdf = gpd.read_file(data)
         geojson = gdf.__geo_interface__
         self.add_geojson(geojson, name=name, style=style, **kwargs)
 
 
+    def add_raster(self, url, name="raster", fit_bounds=True, **kwargs):
+        """Add a raster layer to the map
+
+        Args:
+            url (_type_): The url of the raster layer
+            name (str, optional): The name of the raster layer. Defaults to "raster".
+            fit_bounds (bool, optional): Wheter ti=o fit to the map bounds to tje ratser layer. Defaults to True.
+
+        Raises:
+            ValueError: _Not Found
+            ValueError: _Not Found_
+        """
+
+        import httpx
+
+        titiler_endpoint = "https://titiler.xyz"
+
+        r_info = httpx.get(
+            f"{titiler_endpoint}/cog/info",
+            params={
+                "url": url,
+            }
+        ).json()
         
+        if "bounds" not in r_info:
+                raise ValueError(f"TiTiler /cog/info error: {r_info}")
+        
+        bounds = r_info["bounds"]
+
+        r_tile = httpx.get(
+            f"{titiler_endpoint}/cog/tilejson.json",
+            params= {
+                "url":url,
+            }
+        ).json()
+
+        if "tiles" not in r_tile:
+                raise ValueError(f"TiTiler /cog/tilejson.json error: {r_tile}")
+
+        tile = r_tile["tiles"][0]
+
+        self.add_tile_layer(url=tile, name=name, **kwargs)
+
+        if fit_bounds:
+            bbox = [[bounds[1], bounds[0]], [bounds[3], bounds[2]]]
+            self.fit_bounds(bbox)
+
+    
+
  
     
 

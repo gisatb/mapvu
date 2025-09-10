@@ -38,7 +38,8 @@ theme:
 
 plugins:
     - search
-    - mkdocstrings
+    - mkdocstrings:
+            ignore_errors: true
     - git-revision-date
     - git-revision-date-localized:
           enable_creation_date: true

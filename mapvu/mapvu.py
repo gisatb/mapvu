@@ -247,6 +247,12 @@ class Map(ipyleaflet.Map):
             self.fit_bounds(bbox)
 
     
+    def add_local_raster(self, filename, name="local_raster", **kwargs):
+
+        try:
+            import localtileserver
+        except ImportError:
+            raise ImportError("localtileserver not installed. Please install it")
 
  
     

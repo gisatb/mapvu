@@ -87,7 +87,7 @@ nav:
         - examples/ipyleaflet.ipynb
         - examples/mapuv_intro.ipynb
         - examples/raster.ipynb
-        - examples/working _with_CloudOptimizedGeoTIFF.ipynb
+        - examples/working_with_CloudOptimizedGeoTIFF.ipynb
     - API Reference:
           - mapvu module: mapvu.md
           - foliummap module: foliummap.md

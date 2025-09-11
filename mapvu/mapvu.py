@@ -160,7 +160,7 @@ class Map(ipyleaflet.Map):
                 attribution = basemap.attribution
                 self.add_tile_layer(url, name=basemap.name, attribution=attribution, **kwargs)
             except:
-                raise ValueError(f"Basemap '{Basemap}' not found")       
+                raise ValueError(f"Basemap '{basemap}' not found")       
 
 
     def add_geojson(self, data, name="GeoJSON", style=None, **kwargs):

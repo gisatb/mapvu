@@ -85,8 +85,12 @@ nav:
         - examples/intro.ipynb
         - examples/folium.ipynb
         - examples/ipyleaflet.ipynb
+        - examples/ipywidgets_box.ipynb
+        - examples/ipywidgets_events.ipynb
+        - examples/ipywidgets.ipynb
         - examples/mapuv_intro.ipynb
         - examples/raster.ipynb
+        - examples/toolbar.ipynb
         - examples/working_with_CloudOptimizedGeoTIFF.ipynb
     - API Reference:
           - mapvu module: mapvu.md
